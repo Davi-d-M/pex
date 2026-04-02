@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+  <h2 class="mb-4">💳 Payment</h2>
+
+  <div class="card p-4 shadow-sm mb-3">
+    <h5>Total Amount: <span id="total-amount">0</span></h5>
+  </div>
+
+  <div class="card p-4 shadow-sm">
+    <div class="mb-3">
+      <label class="form-label">Phone Number (M-Pesa)</label>
+      <input type="text" id="phone" class="form-control" placeholder="e.g. 07XXXXXXXX">
+    </div>
+
+    <button href="success.html" class="btn btn-primary w-100" onclick="payNow()">
+      Pay Now
+    </button>
+  </div>
+</div>
+
+<script>
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem("electro_cart")) || [];
+  } catch {
+    return [];
+  }
+}
+
+function calculateTotal(cart) {
+  return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+}
+
+// Load total
+document.addEventListener("DOMContentLoaded", () => {
+  const cart = getCart();
+  const total = calculateTotal(cart);
+
+  document.getElementById("total-amount").textContent = total;
+});
+
+function payNow() {
+  const phone = document.getElementById("phone").value;
+
+  if (!phone) {
+    alert("Enter phone number");
+    return;
+  }
+
+  const cart = getCart();
+
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
+
+  // 🚨 SIMULATION ONLY
+  alert("Simulating M-Pesa payment...");
+
+  // Clear cart after "payment"
+  localStorage.removeItem("electro_cart");
+
+  // Redirect
+  window.location.href = "success.html";
+}
+</script>
+
+</body>
+</html>
