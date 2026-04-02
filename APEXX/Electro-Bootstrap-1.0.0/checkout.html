@@ -66,7 +66,7 @@
   <h2 class="mb-4">🛒 Your Cart</h2>
 
   <!-- ITEMS -->
-  <div id="cart-container" class="mb-4"></div>
+  <div id="cart-container" class="mb-4 bg-dark text-white p-4 rounded-4"></div>
 
   <!-- TOTAL -->
   <div class="card p-3 shadow-sm">
@@ -121,11 +121,11 @@
         <div class="card mb-3 shadow-sm p-3">
           <div class="row align-items-center">
 
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
               <img src="${safeImage}" class="img-fluid rounded">
-            </div>
+            </div> -->
 
-            <div class="col-md-4">
+            <div class="col-md-4 bg-dark text-white p-3 rounded-3">
               <h6>${item.name}</h6>
               <small>Price: ${item.price}</small>
             </div>
@@ -136,12 +136,12 @@
               <button class="btn btn-sm btn-outline-secondary" onclick="changeQty('${item.id}', 1)">+</button>
             </div>
 
-            <div class="col-md-2 text-end">
+            <div class="col-md-2 text-end bg-dark text-white p-3 rounded-3">
               <strong>${itemTotal}</strong>
             </div>
 
             <div class="col-md-1 text-end">
-              <button class="btn btn-sm btn-danger" onclick="removeItem('${item.id}')">x</button>
+              <button class="btn btn-sm btn-danger w-100" onclick="removeItem('${item.id}')">x</button>
             </div>
 
           </div>

@@ -226,7 +226,7 @@
                                     <a href="404.html" class="dropdown-item">404 Page</a>
                                 </div>
                             </div>
-                            <a href="./checkout.html" class="nav-item nav-link">Checkout</a>
+                            <!-- <a href="./checkout.html" class="nav-item nav-link">Checkout</a> -->
                             <a href="contact.html" class="nav-item nav-link me-2">Contact</a>
                             <div class="nav-item dropdown d-block d-lg-none mb-3">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">All Category</a>
@@ -492,17 +492,12 @@
                                     </div>
                                     <div
                                         class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
-                                        <!-- <a href="#"
-                                            class="btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4"><i
-                                                class="fas fa-shopping-cart me-2"></i> Add To Cart</a> -->
-                                                <button 
-  class="add-to-cart btn btn-primary border-secondary rounded-pill py-2 px-4 mb-4"
-  data-name="Neckband Bluetooth Earphones JA-NP003"
-  data-price="1050"
-  data-image="img/hp universal mini usb.jpg">
-  
-  <i class="fa fa-shopping-cart me-2"></i> Add To Cart
-</button>
+                                          <a href="#"
+           class="btn btn-success border-secondary rounded-pill py-2 px-4 mb-4 btn-whatsapp-order"
+           onclick="orderViaWhatsApp(this); return false;">
+            <i class="fab fa-whatsapp me-2"></i> Order via WhatsApp
+        </a>
+          
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex">
                                                 <i class="fas fa-star text-primary"></i>
@@ -2279,7 +2274,62 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-        <script src="./js/cart.js"></script>
+        <!-- <script src="./js/cart.js"></script> -->
+         <script>/**
+ * orderViaWhatsApp
+ * ----------------
+ * Scrapes product data from the clicked button's parent card
+ * and opens a pre-filled WhatsApp chat link.
+ *
+ * @param {HTMLElement} btn - The clicked button element
+ */
+function orderViaWhatsApp(btn) {
+
+  // ── 1. Configuration ──────────────────────────────────────────────────────
+  const WHATSAPP_NUMBER = "254705183447"; // Replace with your number (no + or spaces)
+
+  // ── 2. Walk up the DOM to find the product card container ────────────────
+  // Button → .product-item-add → .product-item (the full card)
+  const card = btn.closest(".product-item");
+
+  if (!card) {
+    console.warn("orderViaWhatsApp: Could not find parent .product-item card.");
+    return;
+  }
+
+  // ── 3. Scrape product name ────────────────────────────────────────────────
+  // Targets the <a class="d-block h4"> element inside .text-center.rounded-bottom
+  const nameEl = card.querySelector(".text-center.rounded-bottom a.d-block.h4");
+  const productName = nameEl
+    ? nameEl.innerText.trim().replace(/\s+/g, " ")  // collapse line breaks from <br>
+    : "Unknown Product";
+
+  // ── 4. Scrape current price ───────────────────────────────────────────────
+  // Targets the <span class="text-primary"> (the sale price, not the <del>)
+  const priceEl = card.querySelector(".text-center.rounded-bottom span.text-primary");
+  const productPrice = priceEl ? priceEl.innerText.trim() : "Price unavailable";
+
+  // ── 5. Scrape product image URL ───────────────────────────────────────────
+  const imgEl = card.querySelector("img.img-fluid");
+  const imageUrl = imgEl ? imgEl.src : "No image available";
+
+  // ── 6. Build the WhatsApp message ─────────────────────────────────────────
+  const message = [
+    "Hello! I'd like to order the following product:",
+    "",
+    `🛍️ *Product:* ${productName}`,
+    `💰 *Price:* ${productPrice}`,
+    `🖼️ *Image:* ${imageUrl}`,
+    "",
+    "Please confirm availability. Thank you!"
+  ].join("\n");
+
+  // ── 7. Encode and open WhatsApp ───────────────────────────────────────────
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+  window.open(whatsappUrl, "_blank");
+}</script>
 
 </body>
 

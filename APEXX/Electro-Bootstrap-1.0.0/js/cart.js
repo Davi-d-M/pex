@@ -30,36 +30,7 @@ const Cart = (() => {
   function save(cart) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
   }
-  
-  function renderCheckout() {
-  const container = document.getElementById("cart-container");
-  if (!container) return;
 
-  const cart = load();
-
-  if (cart.length === 0) {
-    container.innerHTML = "<p>Your cart is empty</p>";
-    return;
-  }
-
-  let html = "";
-
-  cart.forEach(item => {
-    html += `
-      <div style="display:flex; gap:15px; margin-bottom:15px; border-bottom:1px solid #ccc; padding:10px;">
-        <img src="${item.image}" width="80">
-        <div>
-          <h5>${item.name}</h5>
-          <p>Price: ${item.price}</p>
-          <p>Qty: ${item.qty}</p>
-          <p>Total: ${item.price * item.qty}</p>
-        </div>
-      </div>
-    `;
-  });
-
-  container.innerHTML = html;
-}
   /**
    * Generate a stable ID from product name so the same product
    * is always recognised as a duplicate across pages.
@@ -368,19 +339,3 @@ const Cart = (() => {
   return { add, remove, updateQty, updateNavbar, renderCheckout };
 
 })();
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".add-to-cart").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const name = btn.dataset.name;
-      const price = Number(btn.dataset.price);
-      const image = btn.dataset.image;
-
-      Cart.add(name, price, image);
-      Cart.updateNavbar();
-
-      console.log("Added:", name);
-    });
-  });
-});
-
